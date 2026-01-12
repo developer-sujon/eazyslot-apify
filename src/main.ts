@@ -5,6 +5,8 @@
  */
 
 // For more information, see https://crawlee.dev
+import 'dotenv/config';
+
 import { PlaywrightCrawler } from '@crawlee/playwright';
 // For more information, see https://docs.apify.com/sdk/js
 import { Actor, log } from 'apify';
