@@ -1,0 +1,13 @@
+{
+    "title": "EazySlot Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "maxRequestsPerCrawl": {
+            "title": "Max Requests per Crawl",
+            "type": "integer",
+            "description": "Maximum number of form submissions per run.",
+            "default": 100
+        }
+    }
+}
