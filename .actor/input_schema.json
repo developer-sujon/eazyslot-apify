@@ -3,6 +3,13 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
+        "dbConnectionString": {
+            "title": "Database Connection String",
+            "type": "string",
+            "description": "PostgreSQL connection string (e.g., postgresql://user:password@host:port/dbname)",
+            "editor": "textfield",
+            "isSecret": true
+        },
         "maxRequestsPerCrawl": {
             "title": "Max Requests per Crawl",
             "type": "integer",

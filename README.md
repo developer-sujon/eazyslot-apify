@@ -14,36 +14,18 @@ EazySlot is a specialized Apify Actor designed to automate form submissions on `
 
 ### Database Connection
 
-The Actor connects to a Supabase PostgreSQL database. The connection string is currently configured in `src/db.ts`.
+The Actor connects to a Supabase PostgreSQL database. You must provide the connection string via the input configuration (e.g., in Apify Console).
 
-**Table Schema (`files`):**
-
-```sql
-create table files (
-  id uuid primary key,
-  first_name text,
-  last_name text,
-  email text,
-  phone text,
-  message text,
-  status text check (status in ('created', 'processing', 'success', 'failed')),
-  attempts int default 0,
-  reason text,
-  created_at timestamp with time zone default now(),
-  updated_at timestamp with time zone
-);
-```
-
-### Input
-
-The actor accepts input via the Apify Console or API, primarily for tuning performance:
+**Input Configuration:**
 
 ```json
 {
+    "dbConnectionString": "postgresql://user:password@host:port/dbname",
     "maxRequestsPerCrawl": 100
 }
 ```
 
+- `dbConnectionString`: The full PostgreSQL connection string.
 - `maxRequestsPerCrawl`: Maximum number of tasks to process in a single run (default: 100).
 
 ## Local Development

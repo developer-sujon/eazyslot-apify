@@ -1,21 +1,21 @@
 import { Client } from 'pg';
 
-const connectionString =
-    'postgresql://postgres.wxyzjmvugabjvtzewuue:3KCF5OJwgdEaql5l@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres';
+export let db: Client;
 
-export const db = new Client({
-    connectionString,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
+export async function connectDB(connectionString: string) {
+    db = new Client({
+        connectionString,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
 
-export async function connectDB() {
     try {
         await db.connect();
         console.log('Connected to Supabase PostgreSQL');
     } catch (err) {
         console.error('Failed to connect to DB', err);
+        throw err;
     }
 }
 

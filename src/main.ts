@@ -13,22 +13,22 @@ import { connectDB, getPendingFiles, updateFileStatus } from './db.js';
 import { router } from './routes.js';
 
 interface Input {
-    startUrls: {
-        url: string;
-        method?: 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'OPTIONS' | 'CONNECT' | 'PATCH';
-        headers?: Record<string, string>;
-        userData: Record<string, unknown>;
-    }[];
+    dbConnectionString?: string;
     maxRequestsPerCrawl: number;
 }
 
 // Initialize the Apify SDK
 await Actor.init();
 
-// Initialize DB Connection
-await connectDB();
+const { dbConnectionString, maxRequestsPerCrawl = 100 } = (await Actor.getInput<Input>()) ?? ({} as Input);
 
-const { maxRequestsPerCrawl = 100 } = (await Actor.getInput<Input>()) ?? ({} as Input);
+// Initialize DB Connection
+if (!dbConnectionString) {
+    log.error('DB Connection String is missing in input!');
+    await Actor.exit({ exitCode: 1 });
+} else {
+    await connectDB(dbConnectionString);
+}
 
 const proxyConfiguration = await Actor.createProxyConfiguration({ checkAccess: true });
 
