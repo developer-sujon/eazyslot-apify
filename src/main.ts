@@ -22,12 +22,15 @@ await Actor.init();
 
 const { dbConnectionString, maxRequestsPerCrawl = 100 } = (await Actor.getInput<Input>()) ?? ({} as Input);
 
+// Prioritize Env Var, fallback to Input
+const connectionString = process.env.DB_CONNECTION_STRING || dbConnectionString;
+
 // Initialize DB Connection
-if (!dbConnectionString) {
-    log.error('DB Connection String is missing in input!');
+if (!connectionString) {
+    log.error('DB Connection String is missing! Set DB_CONNECTION_STRING env var or provide it in input.');
     await Actor.exit({ exitCode: 1 });
 } else {
-    await connectDB(dbConnectionString);
+    await connectDB(connectionString);
 }
 
 const proxyConfiguration = await Actor.createProxyConfiguration({ checkAccess: true });
